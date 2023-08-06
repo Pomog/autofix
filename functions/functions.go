@@ -12,6 +12,7 @@ var RegisteredFunctions = []struct {
 }{
 	{"Funct1", Funct1},
 	{"Funct2", WrapReplaceHexWithDecimal},
+	{"Funct3", WrapReplaceBinWithDecimal},
 }
 
 func Funct1() {
@@ -24,11 +25,30 @@ func WrapReplaceHexWithDecimal() {
 	fmt.Println(output)
 }
 
+func WrapReplaceBinWithDecimal() {
+	input := "It has been 1010 (bin) years. 1101 (bin) days have passed."
+	output := ReplaceBinWithDecimal(input)
+	fmt.Println(output)
+}
+
 func ReplaceHexWithDecimal(input string) string {
 	re := regexp.MustCompile(`([0-9A-Fa-f]+) \(hex\)`)
 	output := re.ReplaceAllStringFunc(input, func(match string) string {
 		hexStr := re.FindStringSubmatch(match)[1]
 		decimalValue, err := strconv.ParseInt(hexStr, 16, 64)
+		if err != nil {
+			return match
+		}
+		return fmt.Sprintf("%d", decimalValue)
+	})
+	return output
+}
+
+func ReplaceBinWithDecimal(input string) string {
+	re := regexp.MustCompile(`([01]+) \(bin\)`)
+	output := re.ReplaceAllStringFunc(input, func(match string) string {
+		binStr := re.FindStringSubmatch(match)[1]
+		decimalValue, err := strconv.ParseInt(binStr, 2, 64)
 		if err != nil {
 			return match
 		}
