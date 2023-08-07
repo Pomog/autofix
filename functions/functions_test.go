@@ -1,6 +1,7 @@
 package functions
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -40,6 +41,29 @@ func TestReplaceHexWithDecimal(t *testing.T) {
 			result := ReplaceHexWithDecimal(tc.input)
 			if result != tc.expected {
 				t.Errorf("Expected: %s, Got: %s", tc.expected, result)
+			}
+		})
+	}
+}
+
+func TestReplaceBinWithDecimal(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{"101 (bin)", "5"},
+		{"1101 (bin)", "13"},
+		{" 0 (bin)", " 0"},
+		{"11111111  (bin)", "255"},
+		{"Hello (bin)", "Hello (bin)"},
+		{"It has been 10 (bin) years", "It has been 2 years"},
+	}
+
+	for _, test := range tests {
+		t.Run(fmt.Sprintf("Input: %s", test.input), func(t *testing.T) {
+			output := ReplaceBinWithDecimal(test.input)
+			if output != test.expected {
+				t.Errorf("Expected: %s, Got: %s", test.expected, output)
 			}
 		})
 	}

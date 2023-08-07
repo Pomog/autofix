@@ -21,7 +21,7 @@ func ReplaceHexWithDecimal(input string) string {
 }
 
 func ReplaceBinWithDecimal(input string) string {
-	re := regexp.MustCompile(`([01]+) \(bin\)`)
+	re := regexp.MustCompile(`\b([01]+)\s*\(bin\)`)
 	output := re.ReplaceAllStringFunc(input, func(match string) string {
 		binStr := re.FindStringSubmatch(match)[1]
 		decimalValue, err := strconv.ParseInt(binStr, 2, 64)
