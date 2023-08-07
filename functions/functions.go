@@ -6,37 +6,13 @@ import (
 	"strconv"
 )
 
-var RegisteredFunctions = []struct {
-	Name string
-	Fn   func()
-}{
-	{"Funct1", Funct1},
-	{"Funct2", WrapReplaceHexWithDecimal},
-	{"Funct3", WrapReplaceBinWithDecimal},
-}
-
-func Funct1() {
-	fmt.Println("Funct1 is called")
-}
-
-func WrapReplaceHexWithDecimal() {
-	input := "1E (hex) files were added. 2A (hex) items are available."
-	output := ReplaceHexWithDecimal(input)
-	fmt.Println(output)
-}
-
-func WrapReplaceBinWithDecimal() {
-	input := "It has been 1010 (bin) years. 1101 (bin) days have passed."
-	output := ReplaceBinWithDecimal(input)
-	fmt.Println(output)
-}
-
 func ReplaceHexWithDecimal(input string) string {
-	re := regexp.MustCompile(`([0-9A-Fa-f]+) \(hex\)`)
+	re := regexp.MustCompile(`\b([0-9A-Fa-f]+)\s*\(hex\)`)
 	output := re.ReplaceAllStringFunc(input, func(match string) string {
 		hexStr := re.FindStringSubmatch(match)[1]
 		decimalValue, err := strconv.ParseInt(hexStr, 16, 64)
 		if err != nil {
+			// If conversion fails, return the original match
 			return match
 		}
 		return fmt.Sprintf("%d", decimalValue)
