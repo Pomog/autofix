@@ -26,6 +26,10 @@ func TestReplaceHexWithDecimal(t *testing.T) {
 			expected: "Invalid (hex)",
 		},
 		{
+			input:    "Invalid  (hex)",
+			expected: "Invalid  (hex)",
+		},
+		{
 			input:    "ABC (hex) DEF (hex)(hex)",
 			expected: "2748 3567(hex)",
 		},
