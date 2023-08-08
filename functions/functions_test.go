@@ -58,9 +58,12 @@ func TestToUpper(t *testing.T) {
 		expected string
 	}{
 		{"hello (up)", "HELLO"},
-		{"world (up)", "WORLD"},
+		{"he1llo (up)", "HE1LLO"},
+		{"world  (up) ", "WORLD "},
+		{"@world (up)", "@WORLD"},
 		{"go (up) programming", "GO programming"},
 		{"Ready, set, go (up) !", "Ready, set, GO !"},
+		{"Ready, set, Go (up) !", "Ready, set, GO !"},
 	}
 
 	for _, test := range tests {

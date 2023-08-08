@@ -30,7 +30,7 @@ converts the word followed by "(up)"
 with the Uppercase version
 */
 func ToUppercase(input string) string {
-	re := regexp.MustCompile(`\b([a-z]+)\s*\(up\)`)
+	re := regexp.MustCompile(`\b([a-zA-Z0-9]+)\s*\(up\)`)
 	return replace(re, input, convertToUpper)
 }
 
