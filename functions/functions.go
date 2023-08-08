@@ -35,6 +35,15 @@ func ToUppercase(input string) string {
 }
 
 /*
+converts the word followed by "(up)"
+with the Uppercase version
+*/
+func ToLowercase(input string) string {
+	re := regexp.MustCompile(`\b([a-zA-Z0-9]+)\s*\(low\)`)
+	return replace(re, input, convertToLower)
+}
+
+/*
 search and replaces matched patterns in the input string
 using the provided conversion function.
 */
@@ -75,4 +84,11 @@ converts a string to its uppercase equivalent
 */
 func convertToUpper(str string, match string) string {
 	return strings.ToUpper(str)
+}
+
+/*
+converts a string to its lowercase equivalent
+*/
+func convertToLower(str string, match string) string {
+	return strings.ToLower(str)
 }

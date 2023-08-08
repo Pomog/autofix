@@ -11,6 +11,7 @@ func TestReplaceHexWithDecimal(t *testing.T) {
 		expected string
 	}{
 		{"1E (hex) files were added", "30 files were added"},
+		{"A(hex)", "10"},
 		{"A (hex)", "10"},
 		{" 1F  (hex)   ", " 31   "},
 		{"Invalid (hex)", "Invalid (hex)"},
@@ -70,6 +71,30 @@ func TestToUpper(t *testing.T) {
 
 	for _, test := range tests {
 		output := ToUppercase(test.input)
+		if output != test.expected {
+			t.Errorf("Input: %s\nExpected: %s\nGot: %s", test.input, test.expected, output)
+		}
+	}
+}
+
+func TestToLower(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{"HELLO (low)", "hello"},
+		{"HE1LLO (low)", "he1llo"},
+		{"WORLD  (low) ", "world "},
+		{"@WORLD (low)", "@world"},
+		{"hello@WORLD (low)", "hello@world"},
+		{"HELLO1WORLD (low)", "hello1world"},
+		{"GO (low) programming", "go programming"},
+		{"Ready, set, GO (low) !", "Ready, set, go !"},
+		{"Ready, set, Go (low) !", "Ready, set, go !"},
+	}
+
+	for _, test := range tests {
+		output := ToLowercase(test.input)
 		if output != test.expected {
 			t.Errorf("Input: %s\nExpected: %s\nGot: %s", test.input, test.expected, output)
 		}
