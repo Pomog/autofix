@@ -61,6 +61,8 @@ func TestToUpper(t *testing.T) {
 		{"he1llo (up)", "HE1LLO"},
 		{"world  (up) ", "WORLD "},
 		{"@world (up)", "@WORLD"},
+		{"hello@world (up)", "hello@WORLD"},
+		{"hello1world (up)", "HELLO1WORLD"},
 		{"go (up) programming", "GO programming"},
 		{"Ready, set, go (up) !", "Ready, set, GO !"},
 		{"Ready, set, Go (up) !", "Ready, set, GO !"},
