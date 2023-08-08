@@ -107,6 +107,7 @@ func TestCapitalization(t *testing.T) {
 		expected string
 	}{
 		{"hello (cap)", "Hello"},
+		{"hello", "hello"},
 		{"Welcome to the Brooklyn bridge (cap)", "Welcome to the Brooklyn Bridge"},
 		{"wORLD  (cap) ", "WORLD "},
 		{"@go (cap)", "@Go"},
