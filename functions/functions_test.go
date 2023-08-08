@@ -51,6 +51,7 @@ func TestReplaceBinWithDecimal(t *testing.T) {
 		input    string
 		expected string
 	}{
+		{"Invalid (bin)", "Invalid (bin)"},
 		{"101 (bin)", "5"},
 		{"1101 (bin)", "13"},
 		{" 0 (bin)", " 0"},
@@ -66,5 +67,24 @@ func TestReplaceBinWithDecimal(t *testing.T) {
 				t.Errorf("Expected: %s, Got: %s", test.expected, output)
 			}
 		})
+	}
+}
+
+func TestToUpper(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{"hello (up)", "HELLO"},
+		{"world (up)", "WORLD"},
+		{"go (up) programming", "GO programming"},
+		{"Ready, set, go (up) !", "Ready, set, GO !"},
+	}
+
+	for _, test := range tests {
+		output := ToUppercase(test.input)
+		if output != test.expected {
+			t.Errorf("Input: %s\nExpected: %s\nGot: %s", test.input, test.expected, output)
+		}
 	}
 }
