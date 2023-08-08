@@ -10,30 +10,12 @@ func TestReplaceHexWithDecimal(t *testing.T) {
 		input    string
 		expected string
 	}{
-		{
-			input:    "1E (hex) files were added",
-			expected: "30 files were added",
-		},
-		{
-			input:    "A (hex)",
-			expected: "10",
-		},
-		{
-			input:    " 1F  (hex)   ",
-			expected: " 31   ",
-		},
-		{
-			input:    "Invalid (hex)",
-			expected: "Invalid (hex)",
-		},
-		{
-			input:    "Invalid  (hex)",
-			expected: "Invalid  (hex)",
-		},
-		{
-			input:    "ABC (hex) DEF (hex)(hex)",
-			expected: "2748 3567(hex)",
-		},
+		{"1E (hex) files were added", "30 files were added"},
+		{"A (hex)", "10"},
+		{" 1F  (hex)   ", " 31   "},
+		{"Invalid (hex)", "Invalid (hex)"},
+		{"Invalid  (hex)", "Invalid  (hex)"},
+		{"ABC (hex) DEF (hex)(hex)", "2748 3567(hex)"},
 	}
 
 	for _, tc := range testCases {
