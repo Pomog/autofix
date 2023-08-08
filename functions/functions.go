@@ -44,6 +44,15 @@ func ToLowercase(input string) string {
 }
 
 /*
+converts the word followed by "(cap)"
+with the capitalized version of it
+*/
+func capitalization(input string) string {
+	re := regexp.MustCompile(`\b([a-zA-Z0-9]+)\s*\(cap\)`)
+	return replace(re, input, convertToCap)
+}
+
+/*
 search and replaces matched patterns in the input string
 using the provided conversion function.
 */
@@ -91,4 +100,11 @@ converts a string to its lowercase equivalent
 */
 func convertToLower(str string, match string) string {
 	return strings.ToLower(str)
+}
+
+/*
+converts a string to its capitalized equivalent
+*/
+func convertToCap(str string, match string) string {
+	return strings.Title(str)
 }

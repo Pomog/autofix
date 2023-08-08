@@ -100,3 +100,25 @@ func TestToLower(t *testing.T) {
 		}
 	}
 }
+
+func TestCapitalization(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{"hello (cap)", "Hello"},
+		{"Welcome to the Brooklyn bridge (cap)", "Welcome to the Brooklyn Bridge"},
+		{"wORLD  (cap) ", "WORLD "},
+		{"@go (cap)", "@Go"},
+		{"go@lang (cap)", "go@Lang"},
+		{"hello1world (cap)", "Hello1world"},
+		{"Ready, set, go (cap) !", "Ready, set, Go !"},
+	}
+
+	for _, test := range tests {
+		output := capitalization(test.input)
+		if output != test.expected {
+			t.Errorf("Input: %s\nExpected: %s\nGot: %s", test.input, test.expected, output)
+		}
+	}
+}
