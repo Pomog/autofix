@@ -47,29 +47,9 @@ func ToLowercase(input string) string {
 converts the word followed by "(cap)"
 with the capitalized version of it
 */
-func capitalization(input string) string {
+func Capitalization(input string) string {
 	re := regexp.MustCompile(`\b([a-zA-Z0-9]+)\s*\(cap\)`)
 	return replace(re, input, convertToCap)
-}
-
-/*
-converts the word followed by "(cap)"
-with the capitalized version of it
-if a number appears next to it, like so: (low, <number>)
-it turns the previously specified number of words in capitalized form
-*/
-func CapitalizationWithNumber(input string) {
-	re := regexp.MustCompile(`\b[a-zA-Z0-9]+\s*\(up(?:,\s*(\d+))?\)`)
-	parsedNumber := parseInt(re.FindStringSubmatch(input)[1])
-	repeatedPattern := strings.Repeat(`(\b[a-zA-Z0-9]+\s*)`, parsedNumber) + `\(up(?:,\s*(\d+))?\)`
-	reRep := regexp.MustCompile(repeatedPattern)
-	if len(reRep.FindAllStringSubmatch(input, -1)) != 0 {
-		for i, word := range reRep.FindAllStringSubmatch(input, -1)[0][1:] {
-			fmt.Printf("index: %d, word: %s\n", i, word)
-		}
-	} else {
-		fmt.Println("no match")
-	}
 }
 
 /*
@@ -85,11 +65,11 @@ func replace(re *regexp.Regexp, input string, conversionFunc func(foundStr strin
 }
 
 /*
-parseStrBinToDec converts a binary string to its decimal equivalent.
+parseStrHexToDec converts a hexadecimal string to its decimal equivalent.
 If the conversion fails, it returns the original match.
 */
-func parseStrBinToDec(binStr string, match string) string {
-	decimalValue, err := strconv.ParseInt(binStr, 2, 64)
+func parseStrHexToDec(hexStr string, match string) string {
+	decimalValue, err := strconv.ParseInt(hexStr, 16, 64)
 	if err != nil {
 		return match
 	}
@@ -97,11 +77,11 @@ func parseStrBinToDec(binStr string, match string) string {
 }
 
 /*
-parseStrHexToDec converts a hexadecimal string to its decimal equivalent.
+parseStrBinToDec converts a binary string to its decimal equivalent.
 If the conversion fails, it returns the original match.
 */
-func parseStrHexToDec(hexStr string, match string) string {
-	decimalValue, err := strconv.ParseInt(hexStr, 16, 64)
+func parseStrBinToDec(binStr string, match string) string {
+	decimalValue, err := strconv.ParseInt(binStr, 2, 64)
 	if err != nil {
 		return match
 	}
@@ -127,13 +107,4 @@ converts a string to its capitalized equivalent
 */
 func convertToCap(str string, match string) string {
 	return strings.Title(str)
-}
-
-func parseInt(s string) int {
-	var num int
-	_, err := fmt.Sscanf(s, "%d", &num)
-	if err != nil {
-		return 1
-	}
-	return num
 }

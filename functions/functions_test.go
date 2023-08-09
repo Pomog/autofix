@@ -117,7 +117,32 @@ func TestCapitalization(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		output := capitalization(test.input)
+		output := Capitalization(test.input)
+		if output != test.expected {
+			t.Errorf("Input: %s\nExpected: %s\nGot: %s", test.input, test.expected, output)
+		}
+	}
+}
+
+func TestCapitalizationWithNumber(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{"This is so exciting (up, 1)", "This is so Exciting"},
+		{"This is so exciting (up, 0)", "This is so exciting"},
+		{"This is so exciting", "This is so exciting"},
+		{"This is (up, 1) so exciting (up, 1)", "This Is so Exciting"},
+		{"this is (up, 2) so exciting (up, 1)", "This Is so Exciting"},
+		{"This is so exciting (up, 2)", "This is So Exciting"},
+		{"This is so exciting (up, 3)", "This Is So Exciting"},
+		{"This is so exciting (up, 4)", "This Is So Exciting"},
+		{"This is so (up, 1) exciting", "This is So exciting"},
+		{"This is so  (up, 2) exciting", "This Is So exciting"},
+	}
+
+	for _, test := range tests {
+		output := CapitalizationWithNumber(test.input)
 		if output != test.expected {
 			t.Errorf("Input: %s\nExpected: %s\nGot: %s", test.input, test.expected, output)
 		}
