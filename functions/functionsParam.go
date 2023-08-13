@@ -7,14 +7,15 @@ import (
 )
 
 type CustomLogicFunc func(reRep *regexp.Regexp, input string, parsedNumber int) string
+type StringModificationFunc func(input string) string
 
 /*
 converts the previously specified <number> of words followed by "(cap, <number>)"
-with the capitalizex version of it
+with the capitalized version of it
 */
 func CapitalizationWithNumber(input string) string {
 	flag := "cap"
-	input = fixingWithNumber(input, flag, getCapitalizedString)
+	input = fixingWithNumber(input, flag, fixText(capitalization))
 	return input
 }
 
@@ -60,25 +61,25 @@ func createRepeatedPatternRegexp(parsedNumber int, flag string) *regexp.Regexp {
 }
 
 /*
-replace the pattern form the input String by fixedString String
+replace the pattern from the input String by fixedString String
 */
 func replaceStrings(reRep *regexp.Regexp, input string, parsedNumber int, fixedString string) string {
-	machedString := reRep.FindStringSubmatch(input)[0]
+	matchedString := reRep.FindStringSubmatch(input)[0]
 	if parsedNumber != 0 {
-		input = strings.Replace(input, machedString, strings.TrimSpace(fixedString), 1)
+		input = strings.Replace(input, matchedString, strings.TrimSpace(fixedString), 1)
 	} else {
-		input = strings.TrimSpace(strings.Replace(input, machedString, "", 1))
+		input = strings.TrimSpace(strings.Replace(input, matchedString, "", 1))
 	}
 	return input
 }
 
 /*
-converts a String to its capitalized equivalent
+converts a String using the provided modification function
 */
-func getCapitalizedString(reRep *regexp.Regexp, input string, parsedNumber int) string {
+func getModifiedString(modificationFunc StringModificationFunc, reRep *regexp.Regexp, input string, parsedNumber int) string {
 	var fixedString string
 	for _, result := range reRep.FindStringSubmatch(input)[1 : parsedNumber+1] {
-		fixedString = fixedString + getCapitalizedWord(result)
+		fixedString = fixedString + modificationFunc(result)
 	}
 	return fixedString
 }
@@ -86,19 +87,15 @@ func getCapitalizedString(reRep *regexp.Regexp, input string, parsedNumber int) 
 /*
 converts a word to its capitalized equivalent
 */
-func getCapitalizedWord(input string) string {
+func capitalization(input string) string {
 	return strings.Title(input)
 }
 
 /*
-No match found, return input unchanged
+Checks if the input string matches the regular expression 're'.
 */
 func foundPatternMatch(re *regexp.Regexp, input string) bool {
-	var isMatchFound bool
-	if re.FindStringSubmatch(input) != nil {
-		isMatchFound = true
-	}
-	return isMatchFound
+	return re.MatchString(input)
 }
 
 /*
@@ -114,4 +111,13 @@ func parseInt(s string) int {
 		return 0
 	}
 	return num
+}
+
+/*
+Applies the provided modification function to the input text
+*/
+func fixText(modificationFunc StringModificationFunc) CustomLogicFunc {
+	return func(reRep *regexp.Regexp, input string, parsedNumber int) string {
+		return getModifiedString(modificationFunc, reRep, input, parsedNumber)
+	}
 }
