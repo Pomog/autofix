@@ -151,6 +151,30 @@ func TestCapitalizationWithNumber(t *testing.T) {
 	}
 }
 
+func TestToUppercaseWithNumber(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{"This is so exciting (up, 1)", "This is so EXCITING"},
+		{"I can't wait to see  what happens next (up, 3).", "I can't wait to see  WHAT HAPPENS NEXT."},
+		{"This is so exciting (up, 0).", "This is so exciting ."},
+		{"This is so exciting", "This is so exciting"},
+		{"This is (up, 1) so exciting (up, 1)", "This IS so EXCITING"},
+		{"But I'm sure it will be (up, 3) exciting.", "But I'm sure IT WILL BE exciting."},
+		{"This is so (up, 1) exciting", "This is SO exciting"},
+		{"This is so  (up, 2) exciting", "This IS SO exciting"},
+		{"But I'm sure it will be (up, 3) exciting.", "But I'm sure IT WILL BE exciting."},
+	}
+
+	for _, test := range tests {
+		output := ToUppercaseWithNumber(test.input)
+		if output != test.expected {
+			t.Errorf("Input: %s\nExpected: %s\nGot: %s", test.input, test.expected, output)
+		}
+	}
+}
+
 func TestParseInt(t *testing.T) {
 	tests := []struct {
 		input    string
