@@ -129,17 +129,17 @@ func TestCapitalizationWithNumber(t *testing.T) {
 		input    string
 		expected string
 	}{
-		{"This is so exciting (up, 1)", "This is so Exciting"},
-		{"This is so exciting (up, 0).", "This is so exciting ."},
+		{"This is so exciting (cap, 1)", "This is so Exciting"},
+		{"This is so exciting (cap, 0).", "This is so exciting ."},
 		{"This is so exciting", "This is so exciting"},
-		{"This is (up, 1) so exciting (up, 1)", "This Is so Exciting"},
-		{"this is (up, 2) so exciting (up, 1)", "This Is so Exciting"},
-		{"This is so exciting (up, 2)", "This is So Exciting"},
-		{"This is so exciting (up, 3)", "This Is So Exciting"},
-		{"This is so exciting (up, 4)", "This Is So Exciting"},
-		{"This is so (up, 1) exciting", "This is So exciting"},
-		{"This is so  (up, 2) exciting", "This Is So exciting"},
-		{"But I'm sure it will be (up, 3) exciting.", "But I'm sure It Will Be exciting."},
+		{"This is (cap, 1) so exciting (cap, 1)", "This Is so Exciting"},
+		{"this is (cap, 2) so exciting (cap, 1)", "This Is so Exciting"},
+		{"This is so exciting (cap, 2)", "This is So Exciting"},
+		{"This is so exciting (cap, 3)", "This Is So Exciting"},
+		{"This is so exciting (cap, 4)", "This Is So Exciting"},
+		{"This is so (cap, 1) exciting", "This is So exciting"},
+		{"This is so  (cap, 2) exciting", "This Is So exciting"},
+		{"But I'm sure it will be (cap, 3) exciting.", "But I'm sure It Will Be exciting."},
 	}
 
 	for _, test := range tests {
