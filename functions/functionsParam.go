@@ -24,16 +24,24 @@ with the version of it obtained by applying the customLogic function
 */
 func fixingWithNumber(input, flag string, customLogic CustomLogicFunc) string {
 	re := regexp.MustCompile(fmt.Sprintf(`\b[\w]+\s*\(%s(?:,\s*(\d+))?\)`, flag))
-	for noMatchCheck(re, input) {
+	for foundPatternMatch(re, input) {
 		parsedNumber := parseInt(re.FindStringSubmatch(input)[1])
-		repeatedPattern := strings.Repeat(`(\b[\w]+\s*)`, parsedNumber) + `\(` + flag + `(?:,\s*(\d+))?\)`
-		reRep := regexp.MustCompile(repeatedPattern)
+		reRep := createRepeatedPatternRegexp(parsedNumber, flag)
 
 		fixedString := customLogic(reRep, input, parsedNumber)
 
 		input = replaceStrings(reRep, input, parsedNumber, fixedString)
 	}
 	return input
+}
+
+/*
+returns the compiled regular expression for repeated patterns
+*/
+func createRepeatedPatternRegexp(parsedNumber int, flag string) *regexp.Regexp {
+	repeatedPattern := strings.Repeat(`(\b[\w]+\s*)`, parsedNumber) + `\(` + flag + `(?:,\s*(\d+))?\)`
+	reRep := regexp.MustCompile(repeatedPattern)
+	return reRep
 }
 
 /*
@@ -70,7 +78,7 @@ func getCapitalizedWord(input string) string {
 /*
 No match found, return input unchanged
 */
-func noMatchCheck(re *regexp.Regexp, input string) bool {
+func foundPatternMatch(re *regexp.Regexp, input string) bool {
 	var isMatchFound bool
 	if re.FindStringSubmatch(input) != nil {
 		isMatchFound = true
@@ -78,6 +86,9 @@ func noMatchCheck(re *regexp.Regexp, input string) bool {
 	return isMatchFound
 }
 
+/*
+If the input string is not a valid integer, it returns 0.
+*/
 func parseInt(s string) int {
 	var num int
 	if s == "" {

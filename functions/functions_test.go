@@ -130,6 +130,7 @@ func TestCapitalizationWithNumber(t *testing.T) {
 		expected string
 	}{
 		{"This is so exciting (cap, 1)", "This is so Exciting"},
+		{"This is so exciting (cap, -1)", "This is so exciting (cap, -1)"},
 		{"This is so exciting (cap, 0).", "This is so exciting ."},
 		{"This is so exciting", "This is so exciting"},
 		{"This is (cap, 1) so exciting (cap, 1)", "This Is so Exciting"},
@@ -147,5 +148,26 @@ func TestCapitalizationWithNumber(t *testing.T) {
 		if output != test.expected {
 			t.Errorf("Input: %s\nExpected: %s\nGot: %s", test.input, test.expected, output)
 		}
+	}
+}
+
+func TestParseInt(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected int
+	}{
+		{"123", 123},
+		{"-456", -456},
+		{"0", 0},
+		{"abc", 0}, // Invalid input
+		{"", 0},    // Empty input
+	}
+
+	for _, test := range tests {
+		result := parseInt(test.input)
+		if result != test.expected {
+			t.Errorf("Expected: %d, Got: %d", test.expected, result)
+		}
+
 	}
 }
