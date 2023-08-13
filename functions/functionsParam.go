@@ -24,6 +24,21 @@ with the version of it obtained by applying the customLogic function
 */
 func fixingWithNumber(input, flag string, customLogic CustomLogicFunc) string {
 	re := regexp.MustCompile(fmt.Sprintf(`\b[\w]+\s*\(%s(?:,\s*(\d+))?\)`, flag))
+	return processPatternMatches(input, re, flag, customLogic)
+}
+
+/*
+processes the input string to find and replace patterns
+based on the provided regular expression and custom logic function.
+
+It iterates through the input string, detects pattern matches using the
+regular expression 're', applies the custom logic function to generate fixed
+replacements, and updates the input string accordingly. The process continues
+until no more pattern matches are found.
+
+The modified input string is returned after processing.
+*/
+func processPatternMatches(input string, re *regexp.Regexp, flag string, customLogic CustomLogicFunc) string {
 	for foundPatternMatch(re, input) {
 		parsedNumber := parseInt(re.FindStringSubmatch(input)[1])
 		reRep := createRepeatedPatternRegexp(parsedNumber, flag)
