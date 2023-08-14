@@ -16,6 +16,7 @@ func main() {
 	fmt.Println(functions.ToUppercaseWithNumber(str))
 
 	fmt.Println("testToloWercaseWithNumber")
-	str = "(low, 1) This is so Exciting (low,   1)."
+	str = "(low, 1) This is so Exciting (low,   0)."
 	fmt.Println(functions.ToLowercaseWithNumber(str))
+
 }
