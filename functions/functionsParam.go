@@ -10,7 +10,8 @@ type CustomLogicFunc func(reRep *regexp.Regexp, input string, parsedNumber int) 
 type StringModificationFunc func(input string) string
 
 /*
-implementation of the fixingWithNumber function
+implementation
+of the fixingWithNumber function
 converts the previously specified <number> of words followed by "(cap, <number>)"
 with the capitalized version of it
 */
@@ -21,13 +22,26 @@ func CapitalizationWithNumber(input string) string {
 }
 
 /*
-implementation of the fixingWithNumber function
+implementation
+of the fixingWithNumber function
 converts the previously specified <number> of words followed by "(up, <number>)"
 with the UpperCase version of it
 */
 func ToUppercaseWithNumber(input string) string {
 	flag := "up"
 	input = fixingWithNumber(input, flag, fixText(strings.ToUpper))
+	return input
+}
+
+/*
+implementation
+of the fixingWithNumber function
+converts the previously specified <number> of words followed by "(low, <number>)"
+with the lowerCase version of it
+*/
+func ToLowercaseWithNumber(input string) string {
+	flag := "low"
+	input = fixingWithNumber(input, flag, fixText(strings.ToLower))
 	return input
 }
 

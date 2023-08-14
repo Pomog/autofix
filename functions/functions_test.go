@@ -156,7 +156,7 @@ func TestToUppercaseWithNumber(t *testing.T) {
 		input    string
 		expected string
 	}{
-		{"This is so exciting (up, 1)", "This is so EXCITING"},
+		{"This is so exciting (up, 1).", "This is so EXCITING."},
 		{"I can't wait to see  what happens next (up, 3).", "I can't wait to see  WHAT HAPPENS NEXT."},
 		{"This is so exciting (up, 0).", "This is so exciting ."},
 		{"This is so exciting", "This is so exciting"},
@@ -165,10 +165,35 @@ func TestToUppercaseWithNumber(t *testing.T) {
 		{"This is so (up, 1) exciting", "This is SO exciting"},
 		{"This is so  (up, 2) exciting", "This IS SO exciting"},
 		{"But I'm sure it will be (up, 3) exciting.", "But I'm sure IT WILL BE exciting."},
+		{"This is so EXCITINg (up, 1).", "This is so EXCITING."},
 	}
 
 	for _, test := range tests {
 		output := ToUppercaseWithNumber(test.input)
+		if output != test.expected {
+			t.Errorf("Input: %s\nExpected: %s\nGot: %s", test.input, test.expected, output)
+		}
+	}
+}
+
+func TestToLowercaseWithNumber(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{"This is so EXCITING (low, 1)", "This is so exciting"},
+		{"I CAN'T WAIT TO SEE  WHAT HAPPENS NEXT (low, 3).", "I CAN'T WAIT TO SEE  what happens next."},
+		{"This is so EXCITINg (low, 0).", "This is so EXCITINg ."},
+		{"This is so EXCITINg (low, 1).", "This is so exciting."},
+		{"Testing (low, 1) uppercase (low, 2) lowercase (low, 3) transformation", "testing uppercase lowercase transformation"},
+		{"(low, 1) ALL CAPS SENTENCE (low, 2) with (low, 3) multiple (low, 4) words", "(low, 1) ALL caps sentence with multiple words"},
+		{"(low, 10) This sentence has fewer words than specified", "(low, 10) This sentence has fewer words than specified"},
+		{"(low, 0) No words should be converted (low, 0).", "No words should be converted ."},
+		{"(low, 1) (low, 2) (low, 3) Multiple conversions in a row", "(low, 1) (low, 2) (low, 3) Multiple conversions in a row"},
+	}
+
+	for _, test := range tests {
+		output := ToLowercaseWithNumber(test.input)
 		if output != test.expected {
 			t.Errorf("Input: %s\nExpected: %s\nGot: %s", test.input, test.expected, output)
 		}
