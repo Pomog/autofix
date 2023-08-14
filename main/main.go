@@ -12,6 +12,10 @@ func main() {
 	fmt.Println(functions.CapitalizationWithNumber(str))
 
 	fmt.Println("testToUppercaseWithNumber")
-	str = "This is so exciting (up,   2). I can't wait to see  what happens next (up, 3). But I'm sure it will be (up, 3) exciting."
+	str = "(up, 0) This is so exciting (up,   2). I can't wait to see  what happens next (up, 3). But I'm sure it will be (up, 3) exciting."
 	fmt.Println(functions.ToUppercaseWithNumber(str))
+
+	fmt.Println("testToloWercaseWithNumber")
+	str = "(low, 1) This is so Exciting (low,   1)."
+	fmt.Println(functions.ToLowercaseWithNumber(str))
 }

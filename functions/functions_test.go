@@ -188,8 +188,12 @@ func TestToLowercaseWithNumber(t *testing.T) {
 		{"Testing (low, 1) uppercase (low, 2) lowercase (low, 3) transformation", "testing uppercase lowercase transformation"},
 		{"(low, 1) ALL CAPS SENTENCE (low, 2) with (low, 3) multiple (low, 4) words", "(low, 1) ALL caps sentence with multiple words"},
 		{"(low, 10) This sentence has fewer words than specified", "(low, 10) This sentence has fewer words than specified"},
-		{"(low, 0) No words should be converted (low, 0).", "No words should be converted ."},
 		{"(low, 1) (low, 2) (low, 3) Multiple conversions in a row", "(low, 1) (low, 2) (low, 3) Multiple conversions in a row"},
+
+		// These are the most incomprehensible cases, as defined by the assignment. The primary function for these processes is replaceStrings().
+		{"(low, 0) No words should be converted (low, 0).", "No words should be converted ."},
+		{"(low, 0) No words should be converted.", "(low, 0) No words should be converted."},
+		{"(low, 1) No words Should Be Converted (low, 2).", "(low, 1) No words Should be converted."},
 	}
 
 	for _, test := range tests {
