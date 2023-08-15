@@ -1,12 +1,20 @@
 package functions
 
 import (
-	"fmt"
 	"testing"
 )
 
+func runTest(t *testing.T, testFunction func(string) string, tests []struct{ input, expected string }) {
+	for _, test := range tests {
+		result := testFunction(test.input)
+		if result != test.expected {
+			t.Errorf("For input '%s', expected '%s', but got '%s'", test.input, test.expected, result)
+		}
+	}
+}
+
 func TestReplaceHexWithDecimal(t *testing.T) {
-	testCases := []struct {
+	tests := []struct {
 		input    string
 		expected string
 	}{
@@ -18,15 +26,7 @@ func TestReplaceHexWithDecimal(t *testing.T) {
 		{"Invalid  (hex)", "Invalid  (hex)"},
 		{"ABC (hex) DEF (hex)(hex)", "2748 3567(hex)"},
 	}
-
-	for _, tc := range testCases {
-		t.Run(tc.input, func(t *testing.T) {
-			result := ReplaceHexWithDecimal(tc.input)
-			if result != tc.expected {
-				t.Errorf("Expected: %s, Got: %s", tc.expected, result)
-			}
-		})
-	}
+	runTest(t, ReplaceHexWithDecimal, tests)
 }
 
 func TestReplaceBinWithDecimal(t *testing.T) {
@@ -42,15 +42,7 @@ func TestReplaceBinWithDecimal(t *testing.T) {
 		{"Hello (bin)", "Hello (bin)"},
 		{"It has been 10 (bin) years", "It has been 2 years"},
 	}
-
-	for _, test := range tests {
-		t.Run(fmt.Sprintf("Input: %s", test.input), func(t *testing.T) {
-			output := ReplaceBinWithDecimal(test.input)
-			if output != test.expected {
-				t.Errorf("Expected: %s, Got: %s", test.expected, output)
-			}
-		})
-	}
+	runTest(t, ReplaceBinWithDecimal, tests)
 }
 
 func TestToUpper(t *testing.T) {
@@ -68,13 +60,7 @@ func TestToUpper(t *testing.T) {
 		{"Ready, set, go (up) !", "Ready, set, GO !"},
 		{"Ready, set, Go (up) !", "Ready, set, GO !"},
 	}
-
-	for _, test := range tests {
-		output := ToUppercase(test.input)
-		if output != test.expected {
-			t.Errorf("Input: %s\nExpected: %s\nGot: %s", test.input, test.expected, output)
-		}
-	}
+	runTest(t, ToUppercase, tests)
 }
 
 func TestToLower(t *testing.T) {
@@ -92,13 +78,7 @@ func TestToLower(t *testing.T) {
 		{"Ready, set, GO (low) !", "Ready, set, go !"},
 		{"Ready, set, Go (low) !", "Ready, set, go !"},
 	}
-
-	for _, test := range tests {
-		output := ToLowercase(test.input)
-		if output != test.expected {
-			t.Errorf("Input: %s\nExpected: %s\nGot: %s", test.input, test.expected, output)
-		}
-	}
+	runTest(t, ToLowercase, tests)
 }
 
 func TestCapitalization(t *testing.T) {
@@ -115,13 +95,7 @@ func TestCapitalization(t *testing.T) {
 		{"hello1world (cap)", "Hello1world"},
 		{"Ready, set, go (cap) !", "Ready, set, Go !"},
 	}
-
-	for _, test := range tests {
-		output := Capitalization(test.input)
-		if output != test.expected {
-			t.Errorf("Input: %s\nExpected: %s\nGot: %s", test.input, test.expected, output)
-		}
-	}
+	runTest(t, Capitalization, tests)
 }
 
 func TestCapitalizationWithNumber(t *testing.T) {
@@ -142,13 +116,7 @@ func TestCapitalizationWithNumber(t *testing.T) {
 		{"This is so  (cap, 2) exciting", "This Is So exciting"},
 		{"But I'm sure it will be (cap, 3) exciting.", "But I'm sure It Will Be exciting."},
 	}
-
-	for _, test := range tests {
-		output := CapitalizationWithNumber(test.input)
-		if output != test.expected {
-			t.Errorf("Input: %s\nExpected: %s\nGot: %s", test.input, test.expected, output)
-		}
-	}
+	runTest(t, CapitalizationWithNumber, tests)
 }
 
 func TestToUppercaseWithNumber(t *testing.T) {
@@ -167,13 +135,7 @@ func TestToUppercaseWithNumber(t *testing.T) {
 		{"But I'm sure it will be (up, 3) exciting.", "But I'm sure IT WILL BE exciting."},
 		{"This is so EXCITINg (up, 1).", "This is so EXCITING."},
 	}
-
-	for _, test := range tests {
-		output := ToUppercaseWithNumber(test.input)
-		if output != test.expected {
-			t.Errorf("Input: %s\nExpected: %s\nGot: %s", test.input, test.expected, output)
-		}
-	}
+	runTest(t, ToUppercaseWithNumber, tests)
 }
 
 func TestToLowercaseWithNumber(t *testing.T) {
@@ -196,13 +158,7 @@ func TestToLowercaseWithNumber(t *testing.T) {
 		{"(low, 1) No words Should Be Converted (low, 2).", "(low, 1) No words Should be converted."},
 		{"(low, 1) (low, 2) No words Should Be Converted (low, 2).", "(low, 1) (low, 2) No words Should be converted."},
 	}
-
-	for _, test := range tests {
-		output := ToLowercaseWithNumber(test.input)
-		if output != test.expected {
-			t.Errorf("Input: %s\nExpected: %s\nGot: %s", test.input, test.expected, output)
-		}
-	}
+	runTest(t, ToLowercaseWithNumber, tests)
 }
 
 func TestCorrectPunctuationsSpaces(t *testing.T) {
@@ -216,15 +172,7 @@ func TestCorrectPunctuationsSpaces(t *testing.T) {
 		{"Hello...world.", "Hello... world."},
 		{"Spaces  should be corrected .", "Spaces  should be corrected."},
 	}
-
-	for _, test := range tests {
-		t.Run(test.input, func(t *testing.T) {
-			result := CorrectPunctuationsSpaces(test.input)
-			if result != test.expected {
-				t.Errorf("Expected: %s\nGot: %s", test.expected, result)
-			}
-		})
-	}
+	runTest(t, CorrectPunctuationsSpaces, tests)
 }
 
 func TestParseInt(t *testing.T) {
