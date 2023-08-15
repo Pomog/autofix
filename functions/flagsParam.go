@@ -68,15 +68,11 @@ The modified input string is returned after processing.
 func processPatternMatches(input string, re *regexp.Regexp, flag string, customLogic CustomLogicFunc) string {
 	for foundPatternMatch(re, input) {
 		parsedNumber := parseInt(re.FindStringSubmatch(input)[1])
-		fmt.Println("parsedNumber: ", parsedNumber)
 		reRep := createRepeatedPatternRegexp(parsedNumber, flag)
-		fmt.Println("reRep: ", reRep)
 
 		fixedString := customLogic(reRep, input, parsedNumber)
-		fmt.Println("fixedString: ", fixedString)
 
 		input = replaceStrings(reRep, input, parsedNumber, fixedString)
-		fmt.Println("input: ", input)
 	}
 	return input
 }

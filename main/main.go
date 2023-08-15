@@ -19,4 +19,9 @@ func main() {
 	str = "(low, 1) This is so Exciting (low,   0)."
 	fmt.Println(functions.ToLowercaseWithNumber(str))
 
+	fmt.Println("CorrectSpaces")
+	str = "This is so exciting ...  I can't wait to see  what happens next.But I'm sure it will be exciting !"
+	output := functions.CorrectPunctuationsSpaces(str)
+	fmt.Println(output)
+
 }

@@ -205,6 +205,28 @@ func TestToLowercaseWithNumber(t *testing.T) {
 	}
 }
 
+func TestCorrectPunctuationsSpaces(t *testing.T) {
+	tests := []struct {
+		input, expected string
+	}{
+		{"Hello,world.How are you?I am good.", "Hello, world. How are you? I am good."},
+		{"No spaces here:", "No spaces here:"},
+		{"Punctuation at!the end:", "Punctuation at! the end:"},
+		{"This is a test: testing, testing!", "This is a test: testing, testing!"},
+		{"Hello...world.", "Hello... world."},
+		{"Spaces  should be corrected .", "Spaces  should be corrected."},
+	}
+
+	for _, test := range tests {
+		t.Run(test.input, func(t *testing.T) {
+			result := CorrectPunctuationsSpaces(test.input)
+			if result != test.expected {
+				t.Errorf("Expected: %s\nGot: %s", test.expected, result)
+			}
+		})
+	}
+}
+
 func TestParseInt(t *testing.T) {
 	tests := []struct {
 		input    string
