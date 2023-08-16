@@ -32,9 +32,9 @@ func correctString(re *regexp.Regexp, input string) string {
 func applyPunctuationRules(re *regexp.Regexp, match string, input string) string {
 	submatches := re.FindStringSubmatch(match)
 	if strings.HasSuffix(input, match) {
-		return fmt.Sprintf("%s%s", submatches[1], submatches[2])
+		return fmt.Sprintf("%s%s", submatches[1], submatches[2]) // end of the string
 	}
-	return fmt.Sprintf("%s%s ", submatches[1], submatches[2])
+	return fmt.Sprintf("%s%s ", submatches[1], submatches[2]) // not the end of the string
 }
 
 /*
