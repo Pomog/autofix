@@ -175,6 +175,18 @@ func TestCorrectPunctuationsSpaces(t *testing.T) {
 	runTest(t, CorrectPunctuationsSpaces, tests)
 }
 
+func TestCorrectApostrophesSpaces(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{"I am exactly how they describe me: ' awesome '", "I am exactly how they describe me: 'awesome'"},
+		{"I am exactly how they describe me: ' awesome person '", "I am exactly how they describe me: 'awesome person'"},
+		{"As Elton John said: ' I am the most well-known homosexual in the world '", "As Elton John said: 'I am the most well-known homosexual in the world'"},
+	}
+	runTest(t, CorrectApostrophesSpaces, tests)
+}
+
 func TestParseInt(t *testing.T) {
 	tests := []struct {
 		input    string

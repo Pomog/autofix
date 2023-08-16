@@ -36,3 +36,14 @@ func applyPunctuationRules(re *regexp.Regexp, match string, input string) string
 	}
 	return fmt.Sprintf("%s%s ", submatches[1], submatches[2])
 }
+
+/*
+The punctuation mark ' will always be found with another instance of it
+and they should be placed to the right and left of the word in the middle of them,
+without any spaces.
+*/
+func CorrectApostrophesSpaces(input string) string {
+	re := regexp.MustCompile(`'\s*(\w+(\s+\w+)*)\s*'`)
+
+	return re.ReplaceAllString(input, "'$1'")
+}
