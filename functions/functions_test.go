@@ -8,7 +8,7 @@ func runTest(t *testing.T, testFunction func(string) string, tests []struct{ inp
 	for _, test := range tests {
 		result := testFunction(test.input)
 		if result != test.expected {
-			t.Errorf("For input '%s', expected '%s', but got '%s'", test.input, test.expected, result)
+			t.Errorf("For input \n'%s',\n expected '%s',\n but got '%s'", test.input, test.expected, result)
 		}
 	}
 }

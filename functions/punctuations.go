@@ -43,7 +43,10 @@ and they should be placed to the right and left of the word in the middle of the
 without any spaces.
 */
 func CorrectApostrophesSpaces(input string) string {
-	re := regexp.MustCompile(`'\s*(\w+(\s+\w+)*)\s*'`)
+	symbolsInsideApostrophes := []string{"\\w", "-"} // TODO: add configurable punctuation, by config file or env var
+	symbolsPattern := strings.Join(symbolsInsideApostrophes, "")
+	strPattern := `'\s*([` + symbolsPattern + `]+(\s*[` + symbolsPattern + `]+)*)\s*'`
+	re := regexp.MustCompile(strPattern)
 
 	return re.ReplaceAllString(input, "'$1'")
 }
