@@ -23,6 +23,10 @@ func CorrectPunctuationsSpaces(input string) string {
 	return correctString(re, input)
 }
 
+/*
+applies the punctuation spacing rules to the input string.
+It uses a regular expression to match and replace substrings based on the rules defined in applyPunctuationRules.
+*/
 func correctString(re *regexp.Regexp, input string) string {
 	return re.ReplaceAllStringFunc(input, func(match string) string {
 		return applyPunctuationRules(re, match, input)
@@ -44,7 +48,7 @@ func applyPunctuationRules(re *regexp.Regexp, match string, input string) string
 
 /*
 The punctuation mark ' will always be found with another instance of it
-and they should be placed to the right and left of the word in the middle of them,
+and they should be placed to the right and left of the word(s) in the middle of them,
 without any spaces.
 */
 func CorrectApostrophesSpaces(input string) string {
