@@ -153,6 +153,7 @@ func TestToLowercaseWithNumber(t *testing.T) {
 		{"(low, 1) (low, 2) (low, 3) Multiple conversions in a row", "(low, 1) (low, 2) (low, 3) Multiple conversions in a row"},
 
 		// These are the most incomprehensible cases, as the assignment defined in fuzzy way. The primary function for these processes is replaceStrings().
+		// Only if there is at least one word before preceded a FLAG it matches regex pattern
 		{"(low, 0) No words should be converted (low, 0).", "No words should be converted ."},
 		{"(low, 0) No words should be converted.", "(low, 0) No words should be converted."},
 		{"(low, 1) No words Should Be Converted (low, 2).", "(low, 1) No words Should be converted."},
@@ -185,6 +186,20 @@ func TestCorrectApostrophesSpaces(t *testing.T) {
 		{"As Elton John said: ' I am the most well-known homosexual in the world '", "As Elton John said: 'I am the most well-known homosexual in the world'"},
 	}
 	runTest(t, CorrectApostrophesSpaces, tests)
+}
+
+func TestArticlesCorrection(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected string
+	}{
+		{"There it was. A amazing rock, an amazing! It was a amazing day. An amazing day.", "There it was. An amazing rock, an amazing! It was an amazing day. An amazing day."},
+		{"A dog barked at a man. The man had an umbrella.", "A dog barked at a man. The man had an umbrella."},
+		{"She saw a elephant and an mouse at the zoo.", "She saw an elephant and an mouse at the zoo."},
+		{"I have a university degree and an MBA.", "I have an university degree and an MBA."},
+		{"A unicorn is a mythical creature. An unicorn has a horn on its forehead.", "An unicorn is a mythical creature. An unicorn has an horn on its forehead."},
+	}
+	runTest(t, ArticlesCorrection, tests)
 }
 
 func TestParseInt(t *testing.T) {

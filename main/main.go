@@ -24,4 +24,10 @@ func main() {
 	output := functions.CorrectPunctuationsSpaces(str)
 	fmt.Println(output)
 
+	fmt.Println("ArticlesCorrection")
+	str = "She saw an elephant and an mouse at the zoo."
+	fmt.Println(str)
+	output = functions.ArticlesCorrection(str)
+	fmt.Println(output)
+
 }
