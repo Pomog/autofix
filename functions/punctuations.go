@@ -16,7 +16,7 @@ punctuation like '...' or '!?'.
 func CorrectPunctuationsSpaces(input string) string {
 	punctuation := []string{".", ",", "!", "?", ":", ";"} // TODO: add configurable punctuation, by config file or env var
 	punctuationPattern := strings.Join(punctuation, "|\\")
-	strPattern := `(\b[\w]+)\s*([\` + punctuationPattern + `]+)\s*`
+	strPattern := `(\b[\w]+)\s*([\` + punctuationPattern + `]+)\s*` // shoud be two groups, where the first element is the word, and the second is the punctuation mark
 
 	re := regexp.MustCompile(strPattern)
 
@@ -29,6 +29,11 @@ func correctString(re *regexp.Regexp, input string) string {
 	})
 }
 
+/*
+applies the punctuation spacing rules to the matched substring.
+It takes the matched substring, extracts the word and punctuation mark preseeded by it,
+and places them together with or without following space based on whether it's the end of the string.
+*/
 func applyPunctuationRules(re *regexp.Regexp, match string, input string) string {
 	submatches := re.FindStringSubmatch(match)
 	if strings.HasSuffix(input, match) {
