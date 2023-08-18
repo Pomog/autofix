@@ -1,6 +1,8 @@
 package functions
 
 import (
+	"io/ioutil"
+	"os"
 	"testing"
 )
 
@@ -220,5 +222,37 @@ func TestParseInt(t *testing.T) {
 			t.Errorf("Expected: %d, Got: %d", test.expected, result)
 		}
 
+	}
+}
+
+func TestReadFromFile(t *testing.T) {
+	// Create a temporary file for testing
+	content := "Line 1\nLine 2\nLine 3"
+	tmpFile, err := ioutil.TempFile("", "test")
+	if err != nil {
+		t.Fatalf("Failed to create temporary file: %v", err)
+	}
+	defer os.Remove(tmpFile.Name())
+	defer tmpFile.Close()
+
+	_, err = tmpFile.WriteString(content)
+	if err != nil {
+		t.Fatalf("Failed to write to temporary file: %v", err)
+	}
+
+	lines, err := ReadFromFile(tmpFile.Name())
+	if err != nil {
+		t.Fatalf("ReadFromFile returned an error: %v", err)
+	}
+
+	expectedLines := []string{"Line 1", "Line 2", "Line3 "}
+	if len(lines) != len(expectedLines) {
+		t.Fatalf("Expected %d lines, but got %d lines", len(expectedLines), len(lines))
+	}
+
+	for i, line := range lines {
+		if line != expectedLines[i] {
+			t.Errorf("Line %d: Expected '%s', but got '%s'", i+1, expectedLines[i], line)
+		}
 	}
 }
