@@ -1,7 +1,6 @@
 package functions
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 )
@@ -228,7 +227,7 @@ func TestParseInt(t *testing.T) {
 func TestReadFromFile(t *testing.T) {
 	// Create a temporary file for testing
 	content := "Line 1\nLine 2\nLine 3"
-	tmpFile, err := ioutil.TempFile("", "test")
+	tmpFile, err := os.CreateTemp("", "test")
 	if err != nil {
 		t.Fatalf("Failed to create temporary file: %v", err)
 	}
