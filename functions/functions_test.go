@@ -245,7 +245,7 @@ func TestReadFromFile(t *testing.T) {
 		t.Fatalf("ReadFromFile returned an error: %v", err)
 	}
 
-	expectedLines := []string{"Line 1", "Line 2", "Line3 "}
+	expectedLines := []string{"Line 1", "Line 2", "Line 3"}
 	if len(lines) != len(expectedLines) {
 		t.Fatalf("Expected %d lines, but got %d lines", len(expectedLines), len(lines))
 	}
