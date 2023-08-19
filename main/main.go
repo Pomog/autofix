@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+	checkArgs(len(os.Args))
 	greetengs()
 
 	initialFileName, resultFileName := os.Args[1], os.Args[2]
@@ -32,6 +33,14 @@ func main() {
 	}
 
 	farewell(resultFileName)
+}
+
+func checkArgs(argsCount int) {
+	if argsCount != 3 {
+		fmt.Println("Wrong number of arguments!")
+		fmt.Println("Usage: go run . <input file> <output file>")
+		os.Exit(1)
+	}
 }
 
 func greetengs() {
