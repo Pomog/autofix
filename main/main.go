@@ -2,32 +2,45 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/Pomog/autofix/functions"
 )
 
 func main() {
-	fmt.Println("testCapitalizationWithNumber")
-	str := "This is so exciting (cap,   2). I can't wait to see  what happens next (cap, 3). But I'm sure it will be (cap, 3) exciting."
-	fmt.Println(functions.CapitalizationWithNumber(str))
+	greetengs()
 
-	fmt.Println("testToUppercaseWithNumber")
-	str = "(up, 0) This is so exciting (up,   2). I can't wait to see  what happens next (up, 3). But I'm sure it will be (up, 3) exciting."
-	fmt.Println(functions.ToUppercaseWithNumber(str))
+	initialFileName, resultFileName := os.Args[1], os.Args[2]
 
-	fmt.Println("testToloWercaseWithNumber")
-	str = "(low, 1) This is so Exciting (low,   0)."
-	fmt.Println(functions.ToLowercaseWithNumber(str))
+	initialStrings, errRead := functions.ReadFromFile(initialFileName)
+	if errRead != nil {
+		fmt.Println(errRead)
+		os.Exit(1)
+	}
 
-	fmt.Println("CorrectSpaces")
-	str = "This is so exciting ...  I can't wait to see  what happens next.But I'm sure it will be exciting !"
-	output := functions.CorrectPunctuationsSpaces(str)
-	fmt.Println(output)
+	var resultStrings []string
+	for _, str := range initialStrings {
+		for _, fixingFunc := range functions.GetAutoFixingFunctions() {
+			str = fixingFunc(str)
+		}
+		resultStrings = append(resultStrings, str)
+	}
 
-	fmt.Println("ArticlesCorrection")
-	str = "She saw an elephant and an mouse at the zoo."
-	fmt.Println(str)
-	output = functions.ArticlesCorrection(str)
-	fmt.Println(output)
+	if functions.WriteToFile(resultFileName, resultStrings) != nil {
+		fmt.Println(errRead)
+		os.Exit(1)
+	}
 
+	farewell(resultFileName)
+}
+
+func greetengs() {
+	fmt.Println("Welcome to the AutoFix tool!")
+	fmt.Printf("The file --> %s <-- will be fixed\n", os.Args[1])
+}
+
+func farewell(resultFileName string) {
+	fmt.Println("Finished. No errors. Thanks for using.")
+	fmt.Printf("The result is in the file --> %s <--\n", resultFileName)
+	fmt.Println("Goodbye!")
 }
