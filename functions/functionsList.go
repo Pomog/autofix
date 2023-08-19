@@ -1,6 +1,13 @@
 package functions
 
-func GetAutoFixingFunctions() map[string]StringModificationFunc {
+func ApplyAutoFixingFunctions(str string) string {
+	for _, fixingFunc := range getAutoFixingFunctions() {
+		str = fixingFunc(str)
+	}
+	return str
+}
+
+func getAutoFixingFunctions() map[string]StringModificationFunc {
 	return map[string]StringModificationFunc{
 		"hex":     ReplaceHexWithDecimal,
 		"bin":     ReplaceBinWithDecimal,

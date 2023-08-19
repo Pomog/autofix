@@ -21,10 +21,8 @@ func main() {
 
 	var resultStrings []string
 	for _, str := range initialStrings {
-		for _, fixingFunc := range functions.GetAutoFixingFunctions() {
-			str = fixingFunc(str)
-		}
-		resultStrings = append(resultStrings, str)
+		fixedStr := functions.ApplyAutoFixingFunctions(str)
+		resultStrings = append(resultStrings, fixedStr)
 	}
 
 	if functions.WriteToFile(resultFileName, resultStrings) != nil {
