@@ -199,6 +199,7 @@ func TestArticlesCorrection(t *testing.T) {
 		{"She saw a elephant and an mouse at the zoo.", "She saw an elephant and an mouse at the zoo."},
 		{"I have a university degree and an MBA.", "I have an university degree and an MBA."},
 		{"A unicorn is a mythical creature. An unicorn has a horn on its forehead.", "An unicorn is a mythical creature. An unicorn has an horn on its forehead."},
+		{"There is no greater agony than bearing a untold story inside you.", "There is no greater agony than bearing an untold story inside you."},
 	}
 	runTest(t, ArticlesCorrection, tests)
 }
