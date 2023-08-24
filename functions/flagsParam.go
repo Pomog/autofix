@@ -17,7 +17,7 @@ with the capitalized version of it
 */
 func CapitalizationWithNumber(input string) string {
 	flag := "cap"
-	input = fixingWithNumber(input, flag, fixText(capitalization))
+	input = fixingWithNumber(input, flag, applyModification(capitalization))
 	return input
 }
 
@@ -29,7 +29,7 @@ with the UpperCase version of it
 */
 func ToUppercaseWithNumber(input string) string {
 	flag := "up"
-	input = fixingWithNumber(input, flag, fixText(strings.ToUpper))
+	input = fixingWithNumber(input, flag, applyModification(strings.ToUpper))
 	return input
 }
 
@@ -41,7 +41,7 @@ with the lowerCase version of it
 */
 func ToLowercaseWithNumber(input string) string {
 	flag := "low"
-	input = fixingWithNumber(input, flag, fixText(strings.ToLower))
+	input = fixingWithNumber(input, flag, applyModification(strings.ToLower))
 	return input
 }
 
@@ -102,7 +102,7 @@ func replaceStrings(reRep *regexp.Regexp, input string, parsedNumber int, fixedS
 /*
 converts a String using the provided modification function
 */
-func getModifiedString(modificationFunc StringModificationFunc, reRep *regexp.Regexp, input string, parsedNumber int) string {
+func modifyString(modificationFunc StringModificationFunc, reRep *regexp.Regexp, input string, parsedNumber int) string {
 	var fixedString string
 	for _, result := range reRep.FindStringSubmatch(input)[1 : parsedNumber+1] {
 		fixedString = fixedString + modificationFunc(result)
@@ -127,8 +127,7 @@ func foundPatternMatch(re *regexp.Regexp, input string) bool {
 /*
 If the input string is not a valid integer, it returns 0.
 */
-func parseInt(s string) int {
-	var num int
+func parseInt(s string) (num int) {
 	if s == "" {
 		return 0
 	}
@@ -142,8 +141,8 @@ func parseInt(s string) int {
 /*
 Applies the provided modification function to the input text
 */
-func fixText(modificationFunc StringModificationFunc) CustomLogicFunc {
+func applyModification(modificationFunc StringModificationFunc) CustomLogicFunc {
 	return func(reRep *regexp.Regexp, input string, parsedNumber int) string {
-		return getModifiedString(modificationFunc, reRep, input, parsedNumber)
+		return modifyString(modificationFunc, reRep, input, parsedNumber)
 	}
 }
