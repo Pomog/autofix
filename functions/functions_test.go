@@ -26,6 +26,7 @@ func TestReplaceHexWithDecimal(t *testing.T) {
 		{"Invalid (hex)", "Invalid (hex)"},
 		{"Invalid  (hex)", "Invalid  (hex)"},
 		{"ABC (hex) DEF (hex)(hex)", "2748 3567(hex)"},
+		{"1R (hex) files were added", "1R (hex) files were added"}, // Invalid input test
 	}
 	runTest(t, ReplaceHexWithDecimal, tests)
 }
@@ -42,6 +43,7 @@ func TestReplaceBinWithDecimal(t *testing.T) {
 		{"11111111  (bin)", "255"},
 		{"Hello (bin)", "Hello (bin)"},
 		{"It has been 10 (bin) years", "It has been 2 years"},
+		{"It has been 12 (bin) years", "It has been 12 (bin) years"}, // Invalid input test
 	}
 	runTest(t, ReplaceBinWithDecimal, tests)
 }
@@ -185,6 +187,7 @@ func TestCorrectApostrophesSpaces(t *testing.T) {
 		{"I am exactly how they describe me: ' awesome '", "I am exactly how they describe me: 'awesome'"},
 		{"I am exactly how they describe me: ' awesome person '", "I am exactly how they describe me: 'awesome person'"},
 		{"As Elton John said: ' I am the most well-known homosexual in the world '", "As Elton John said: 'I am the most well-known homosexual in the world'"},
+		{"As Elton John said: 'I am the most well-known homosexual in the world '", "As Elton John said: 'I am the most well-known homosexual in the world'"},
 	}
 	runTest(t, CorrectApostrophesSpaces, tests)
 }

@@ -6,6 +6,9 @@ import (
 	"strings"
 )
 
+var punctuationsSlice = []string{".", ",", "!", "?", ":", ";"} // TODO: add configurable punctuation, by config file or env var
+var validSymbolsInsideApostrophes = []string{"\\w", "-"}       // TODO: add configurable punctuation, by config file or env var
+
 /*
 CorrectPunctuationsSpaces takes an input string and adds spaces around punctuation marks
 based on the specified rules duscribed by inner function applyPunctuationRules.
@@ -14,9 +17,8 @@ and separated by a space from the following content. Exceptions include groups o
 punctuation like '...' or '!?'.
 */
 func CorrectPunctuationsSpaces(input string) string {
-	punctuation := []string{".", ",", "!", "?", ":", ";"} // TODO: add configurable punctuation, by config file or env var
-	punctuationPattern := strings.Join(punctuation, "|\\")
-	strPattern := `(\b[\w]+)\s*([\` + punctuationPattern + `]+)\s*` // shoud be two groups, where the first element is the word, and the second is the punctuation mark
+	punctuationPattern := strings.Join(punctuationsSlice, "|\\")
+	strPattern := fmt.Sprintf(`(\b[\w]+)\s*([%s]+)\s*`, punctuationPattern) // shoud be two groups, where the first element is the word, and the second is the punctuation mark
 
 	re := regexp.MustCompile(strPattern)
 
@@ -52,9 +54,8 @@ and they should be placed to the right and left of the word(s) in the middle of 
 without any spaces.
 */
 func CorrectApostrophesSpaces(input string) string {
-	symbolsInsideApostrophes := []string{"\\w", "-"} // TODO: add configurable punctuation, by config file or env var
-	symbolsPattern := strings.Join(symbolsInsideApostrophes, "")
-	strPattern := `'\s*([` + symbolsPattern + `]+(\s*[` + symbolsPattern + `]+)*)\s*'`
+	symbolsPattern := strings.Join(validSymbolsInsideApostrophes, "")
+	strPattern := fmt.Sprintf(`'\s*([%s]+(\s*[%s]+)*)\s*'`, symbolsPattern, symbolsPattern)
 	re := regexp.MustCompile(strPattern)
 
 	return re.ReplaceAllString(input, "'$1'")

@@ -1,6 +1,7 @@
 package functions
 
 import (
+	"fmt"
 	"regexp"
 	"strings"
 )
@@ -21,7 +22,12 @@ returns the corrected string.
 func ArticlesCorrection(input string) string {
 	listOfLetters := []string{"a", "e", "i", "o", "u", "h"} // TODO: add configurable punctuation, by config file or env var
 	lettersPattern := strings.Join(listOfLetters, "")
-	strPattern := `\b(` + articleA + `|` + strings.ToUpper(articleA) + `)(\s+)([` + lettersPattern + `])` // shoud be three groups, where the first element is the article, the second is the space, and the third is the  frist letter of the next word
+	strPattern := fmt.Sprintf(
+		`\b(%s|%s)(\s+)([%s])`,
+		articleA,
+		strings.ToUpper(articleA),
+		lettersPattern,
+	) // shoud be three groups, where the first element is the article, the second is the space, and the third is the  frist letter of the next word
 
 	re := regexp.MustCompile(strPattern)
 
