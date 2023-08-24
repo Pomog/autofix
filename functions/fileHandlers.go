@@ -5,6 +5,9 @@ import (
 	"os"
 )
 
+/*
+ReadFromFile reads lines from a file and returns them as a slice of strings.
+*/
 func ReadFromFile(fileName string) ([]string, error) {
 	file, errRead := os.Open(fileName)
 	if errRead != nil {
@@ -22,10 +25,13 @@ func ReadFromFile(fileName string) ([]string, error) {
 	if errScan := fileScanner.Err(); errScan != nil {
 		return nil, errScan
 	}
-
+	file.Close() //deferred closure may not be executed if an error occurs before the defer statement
 	return fileLines, nil
 }
 
+/*
+WriteToFile writes lines to a file
+*/
 func WriteToFile(fileName string, lines []string) error { // TODO: unit tests
 	file, errWrite := os.Create(fileName)
 	if errWrite != nil {
@@ -42,6 +48,6 @@ func WriteToFile(fileName string, lines []string) error { // TODO: unit tests
 	if errFlush := fileWriter.Flush(); errFlush != nil {
 		return errFlush
 	}
-
+	file.Close() //deferred closure may not be executed if an error occurs before the defer statement
 	return nil
 }

@@ -69,11 +69,7 @@ parseStrHexToDec converts a hexadecimal string to its decimal equivalent.
 If the conversion fails, it returns the original match.
 */
 func parseStrHexToDec(hexStr string, match string) string {
-	decimalValue, err := strconv.ParseInt(hexStr, 16, 64)
-	if err != nil {
-		return match
-	}
-	return fmt.Sprintf("%d", decimalValue)
+	return parseStrWithBaseToDec(hexStr, match, 16, 64)
 }
 
 /*
@@ -81,7 +77,11 @@ parseStrBinToDec converts a binary string to its decimal equivalent.
 If the conversion fails, it returns the original match.
 */
 func parseStrBinToDec(binStr string, match string) string {
-	decimalValue, err := strconv.ParseInt(binStr, 2, 64)
+	return parseStrWithBaseToDec(binStr, match, 2, 64)
+}
+
+func parseStrWithBaseToDec(binStr, match string, base, bitsize int) string {
+	decimalValue, err := strconv.ParseInt(binStr, base, bitsize)
 	if err != nil {
 		return match
 	}
@@ -90,6 +90,7 @@ func parseStrBinToDec(binStr string, match string) string {
 
 /*
 converts a string to its uppercase equivalent
+function could potentially be combined with the convertToLower and convertToCap functions since it's just capitalizing the first letter.
 */
 func convertToUpper(str string, match string) string {
 	return strings.ToUpper(str)
@@ -97,6 +98,7 @@ func convertToUpper(str string, match string) string {
 
 /*
 converts a string to its lowercase equivalent
+function could potentially be combined with the convertToUpper and convertToCap functions since it's just capitalizing the first letter.
 */
 func convertToLower(str string, match string) string {
 	return strings.ToLower(str)
@@ -104,6 +106,7 @@ func convertToLower(str string, match string) string {
 
 /*
 converts a string to its capitalized equivalent
+function could potentially be combined with the convertToUpper and convertToLower functions since it's just capitalizing the first letter.
 */
 func convertToCap(str string, match string) string {
 	return strings.Title(str)
