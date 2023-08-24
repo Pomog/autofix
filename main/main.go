@@ -2,32 +2,31 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/Pomog/autofix/functions"
 )
 
 func main() {
-	checkArgs(len(os.Args))
-	greetengs()
+	checkArgs(len(os.Args)) // there should be 2 arguments added: the input file name and the output file name
+	greetings()
 
 	initialFileName, resultFileName := os.Args[1], os.Args[2]
 
 	initialStrings, errRead := functions.ReadFromFile(initialFileName)
 	if errRead != nil {
-		fmt.Println(errRead)
-		os.Exit(1)
+		log.Fatal(errRead)
 	}
 
 	var resultStrings []string
 	for _, str := range initialStrings {
-		fixedStr := functions.ApplyAutoFixingFunctions(str)
+		fixedStr := functions.ApplyAutoFixingFunctions(str) // apply all functions form the map which returns by getAutoFixingFunctions()
 		resultStrings = append(resultStrings, fixedStr)
 	}
 
-	if functions.WriteToFile(resultFileName, resultStrings) != nil {
-		fmt.Println(errRead)
-		os.Exit(1)
+	if witeToFileEWrror := functions.WriteToFile(resultFileName, resultStrings); witeToFileEWrror != nil {
+		log.Fatal(witeToFileEWrror)
 	}
 
 	farewell(resultFileName)
@@ -35,19 +34,16 @@ func main() {
 
 func checkArgs(argsCount int) {
 	if argsCount != 3 {
-		fmt.Println("Wrong number of arguments!")
-		fmt.Println("Usage: go run . <input file> <output file>")
-		os.Exit(1)
+		log.Fatal("Wrong number of arguments!\nUsage: go run . <input file> <output file>")
 	}
 }
 
-func greetengs() {
-	fmt.Println("Welcome to the AutoFix tool!")
-	fmt.Printf("The file --> %s <-- will be fixed\n", os.Args[1])
+func greetings() {
+	message := fmt.Sprintf("Welcome to the AutoFix tool!\nThe file --> %s <-- will be fixed\n", os.Args[1])
+	fmt.Println(message)
 }
 
 func farewell(resultFileName string) {
-	fmt.Println("Finished. No errors. Thanks for using.")
-	fmt.Printf("The result is in the file --> %s <--\n", resultFileName)
-	fmt.Println("Goodbye!")
+	message := fmt.Sprintf("Finished. No errors. Thanks for using.\nThe result is in the file --> %s <--\nGoodbye!\n", resultFileName)
+	fmt.Println(message)
 }
